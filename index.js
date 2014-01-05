@@ -25,9 +25,23 @@ var myTransform = tt.makeRequireTransform('vashify',
 
 		var dirName = path.dirname(opts.file);
 		fileName = path.resolve(dirName, fileName);
+		var strTmpl;
+		try {
+			strTmpl = fs.readFileSync(fileName);
+		}
+		catch (e){
+			process.stderr.write('Error reading: ' + fileName + '\n');
+			throw e;
+		}
 
-		var strTmpl = fs.readFileSync(fileName);
-		var fn = vash.compile(strTmpl.toString());
+		var fn;
+		try {
+			fn = vash.compile(strTmpl.toString());
+		}
+		catch (e){
+			process.stderr.write('Error compiling: ' + fileName + '\n');
+			throw e;
+		}
 
 		var newCode = codeTemplate({
 			fn: fn.toClientString()
