@@ -25,9 +25,9 @@ var myTransform = tt.makeRequireTransform('vashify',
 	{evaluateArguments: true},
 	function(args, opts, cb) {
 		var filePath = args[0];
-		var fileName = filePath.match(/[^\/]*$/)[0];
 		if (!isCoolFile(filePath)) return cb();
 
+		var fileName = filePath.match(/[^\/]*$/)[0];
 		var dirName = path.dirname(opts.file);
 		var fullFileName = path.resolve(dirName, filePath);
 
