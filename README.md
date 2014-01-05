@@ -90,9 +90,9 @@ var template = (function(){
         
         }, {"simple":false,"modelName":"model","helpersName":"html"} );
         })();
-        var $ = require('jquery');
+var $ = require('jquery');
 
-        $('body').append(template({ name: 'Mike', traits: ['bro', 'tall']}));
+$('body').append(template({ name: 'Mike', traits: ['bro', 'tall']}));
 
   // more browserify stuff })})}]}0})})
 ````````````
