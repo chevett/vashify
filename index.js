@@ -13,6 +13,9 @@ var COOL_FILE_REGEX = [
 	/\.aspx$/i
 ];
 
+mkdirp.sync(__dirname + '/.temp');
+
+
 function isCoolFile(fileName){
 	var isCool = false;
 	COOL_FILE_REGEX.forEach(function(regex){
@@ -57,8 +60,7 @@ var myTransform = tt.makeRequireTransform('vashify',
 		var moduleLocation = lookup[fullFileName];
 
 		if (!moduleLocation){
-			moduleLocation = lookup[fullFileName] = __dirname + '/c/' + counter++ + '_'+fileName + '.js';
-			mkdirp.sync(__dirname + '/c');
+			moduleLocation = lookup[fullFileName] = __dirname + '/.temp/' + counter++ + '_'+fileName + '.js';
 			fs.writeFileSync(moduleLocation, moduleContents);
 		}
 
