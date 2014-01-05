@@ -3,7 +3,10 @@ var tt = require('browserify-transform-tools'),
 	path = require('path'),
 	vash = require('vash');
 
-var codeTemplate = vash.compile(fs.readFileSync(__dirname + '/code.vash').toString());
+var counter = 0;
+var lookup = Object.create(null);
+
+var moduleTemplate = vash.compile(fs.readFileSync(__dirname + '/module.vash').toString());
 var COOL_FILE_REGEX = [
 	/\.vash$/i,
 	/\.aspx$/i
@@ -44,12 +47,20 @@ var myTransform = tt.makeRequireTransform('vashify',
 			throw e;
 		}
 
-		var newCode = codeTemplate({
+		var moduleContents = moduleTemplate({
 			vashRuntimeLocation: __dirname + '/node_modules/vash/build/vash-runtime.min.js' ,
 			fn: fn.toClientString()
 		});
 
-		cb(null, newCode);
+
+
+
+		lookup[fileName] = lookup[fileName] || __dirname + '/tmp/v_' + counter++ + '.js'
+		var moduleLocation = lookup[fileName];
+		fs.writeFileSync(moduleLocation, moduleContents);
+
+		var moduleRequire = 'require("'+moduleLocation + '")';
+		cb(null, moduleRequire);
 	}
 );
 

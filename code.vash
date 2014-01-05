@@ -1,4 +1,0 @@
-(function(){
-	var vash = require('@model.vashRuntimeLocation');
-	return @html.raw(model.fn);
-})()

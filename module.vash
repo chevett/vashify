@@ -1,0 +1,2 @@
+var vash = require('@model.vashRuntimeLocation');
+module.exports = @html.raw(model.fn);
