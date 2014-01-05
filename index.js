@@ -25,6 +25,7 @@ var myTransform = tt.makeRequireTransform('vashify',
 
 		var dirName = path.dirname(opts.file);
 		fileName = path.resolve(dirName, fileName);
+
 		var strTmpl;
 		try {
 			strTmpl = fs.readFileSync(fileName);
