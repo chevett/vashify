@@ -24,18 +24,19 @@ function isCoolFile(fileName){
 var myTransform = tt.makeRequireTransform('vashify',
 	{evaluateArguments: true},
 	function(args, opts, cb) {
-		var fileName = args[0];
-		if (!isCoolFile(fileName)) return cb();
+		var filePath = args[0];
+		var fileName = filePath.match(/[^\/]*$/)[0];
+		if (!isCoolFile(filePath)) return cb();
 
 		var dirName = path.dirname(opts.file);
-		fileName = path.resolve(dirName, fileName);
+		var fullFileName = path.resolve(dirName, filePath);
 
 		var strTmpl;
 		try {
-			strTmpl = fs.readFileSync(fileName);
+			strTmpl = fs.readFileSync(fullFileName);
 		}
 		catch (e){
-			process.stderr.write('Error reading: ' + fileName + '\n');
+			process.stderr.write('Error reading: ' + filePath + '\n');
 			throw e;
 		}
 
@@ -44,7 +45,7 @@ var myTransform = tt.makeRequireTransform('vashify',
 			fn = vash.compile(strTmpl.toString());
 		}
 		catch (e){
-			process.stderr.write('Error compiling: ' + fileName + '\n');
+			process.stderr.write('Error compiling: ' + filePath + '\n');
 			throw e;
 		}
 
@@ -53,13 +54,13 @@ var myTransform = tt.makeRequireTransform('vashify',
 			fn: fn.toClientString()
 		});
 
+		var moduleLocation = lookup[fullFileName];
 
-
-
-		lookup[fileName] = lookup[fileName] || __dirname + '/c/v_' + counter++ + '.js'
-		var moduleLocation = lookup[fileName];
-		mkdirp(__dirname + '/c');
-		fs.writeFileSync(moduleLocation, moduleContents);
+		if (!moduleLocation){
+			moduleLocation = lookup[fullFileName] = __dirname + '/c/' + counter++ + '_'+fileName + '.js';
+			mkdirp(__dirname + '/c');
+			fs.writeFileSync(moduleLocation, moduleContents);
+		}
 
 		var moduleRequire = 'require("'+moduleLocation + '")';
 		cb(null, moduleRequire);
