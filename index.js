@@ -58,7 +58,7 @@ var myTransform = tt.makeRequireTransform('vashify',
 
 		lookup[fileName] = lookup[fileName] || __dirname + '/c/v_' + counter++ + '.js'
 		var moduleLocation = lookup[fileName];
-		mkdirp('./c');
+		mkdirp(__dirname + '/c');
 		fs.writeFileSync(moduleLocation, moduleContents);
 
 		var moduleRequire = 'require("'+moduleLocation + '")';
