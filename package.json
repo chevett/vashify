@@ -1,6 +1,6 @@
 {
   "name": "vashify",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "compile vash templates for use with browserify",
   "main": "index.js",
   "scripts": {
