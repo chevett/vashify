@@ -3,7 +3,7 @@ var tt = require('browserify-transform-tools'),
 	path = require('path'),
 	vash = require('vash');
 
-var codeTemplate = vash.compile(fs.readFileSync('./code.vash').toString());
+var codeTemplate = vash.compile(fs.readFileSync(__dirname + '/code.vash').toString());
 var COOL_FILE_REGEX = [
 	/\.vash$/i,
 	/\.aspx$/i
