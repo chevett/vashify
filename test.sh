@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-actual=$(node <(./node_modules/browserify/bin/cmd.js -t ./index.js ./example/entry.js));
+actual=$(./node_modules/browserify/bin/cmd.js -t ./index.js ./example/entry.js|node);
 expected='Hi chevett.  Your dumb test worked.'
 
 if [[ "$actual" == "$expected" ]]; then
