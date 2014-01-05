@@ -1,5 +1,6 @@
 var tt = require('browserify-transform-tools'),
 	fs = require('fs'),
+	mkdirp = require('mkdirp'),
 	path = require('path'),
 	vash = require('vash');
 
@@ -55,8 +56,9 @@ var myTransform = tt.makeRequireTransform('vashify',
 
 
 
-		lookup[fileName] = lookup[fileName] || __dirname + '/tmp/v_' + counter++ + '.js'
+		lookup[fileName] = lookup[fileName] || __dirname + '/c/v_' + counter++ + '.js'
 		var moduleLocation = lookup[fileName];
+		mkdirp('./c');
 		fs.writeFileSync(moduleLocation, moduleContents);
 
 		var moduleRequire = 'require("'+moduleLocation + '")';

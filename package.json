@@ -24,7 +24,8 @@
   "homepage": "https://github.com/chevett/vashify",
   "dependencies": {
     "browserify-transform-tools": "~1.1.0",
-    "vash": "~0.7.6-3"
+    "vash": "~0.7.6-3",
+    "mkdirp": "~0.3.5"
   },
   "devDependencies": {
     "browserify": "~3.18.0"

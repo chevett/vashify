@@ -10,6 +10,6 @@ lib-cov
 pids
 logs
 results
-
+c/
 npm-debug.log
 node_modules
