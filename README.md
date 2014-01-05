@@ -29,6 +29,6 @@ browserify -t vashify your-file.js > bundle.js
 
 What is happening?
 ------------------
-Modules references like require('*.vash') files will be intercepted.  Once intercepted, the template is compiled, a new module is generated and the template is placed in that module.  Next, the module is written to disk and the original require('my-template.vash') is replaced with something like require('tempdir/my-template.vash.js').
+Module references like require('*.vash') files will be intercepted.  Once intercepted, the template is compiled, a new module is generated and the compiled template is placed in that module.  Next, the module is written to disk and the original require('my-template.vash') is replaced with a require to the temp module containing the compiled template.
 
 This means templates that are required multiple times will only appear in the bundle once... which is good for business.
