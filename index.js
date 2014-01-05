@@ -44,6 +44,7 @@ var myTransform = tt.makeRequireTransform('vashify',
 		}
 
 		var newCode = codeTemplate({
+			vashRuntimeLocation: __dirname + '/node_modules/vash/build/vash-runtime.min.js' ,
 			fn: fn.toClientString()
 		});
 
