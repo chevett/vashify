@@ -4,7 +4,7 @@
   "description": "compile vash templates for use with browserify",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./index.spec.js"
+    "test": "./test.sh"
   },
   "repository": {
     "type": "git",
@@ -24,10 +24,9 @@
   "homepage": "https://github.com/chevett/vashify",
   "dependencies": {
     "browserify-transform-tools": "~1.1.0",
-    "browserify": "~3.18.0",
     "vash": "~0.7.6-3"
   },
   "devDependencies": {
-    "concat-stream": "~1.4.0"
+    "browserify": "~3.18.0"
   }
 }

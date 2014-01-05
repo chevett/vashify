@@ -1,14 +1,13 @@
-var tt = require('browserify-transform-tools');
-var vash = require('vash');
-var fs = require('fs');
-var options = {
-};
+var tt = require('browserify-transform-tools'),
+	fs = require('fs'),
+	path = require('path'),
+	vash = require('vash');
 
+var codeTemplate = vash.compile(fs.readFileSync('./code.vash').toString());
 var COOL_FILE_REGEX = [
 	/\.vash$/i,
 	/\.aspx$/i
 ];
-
 
 function isCoolFile(fileName){
 	var isCool = false;
@@ -18,35 +17,24 @@ function isCoolFile(fileName){
 	return isCool;
 }
 
-function configure(newOptions){
-	Object.keys(newOptions).forEach(function(v){
-		options[v] = newOptions[v];
-	});
-
-	return this;
-}
-
-var myTransform = tt.makeRequireTransform("vashify",
+var myTransform = tt.makeRequireTransform('vashify',
 	{evaluateArguments: true},
 	function(args, opts, cb) {
 		var fileName = args[0];
 		if (!isCoolFile(fileName)) return cb();
 
+		var dirName = path.dirname(opts.file);
+		fileName = path.resolve(dirName, fileName);
+
 		var strTmpl = fs.readFileSync(fileName);
 		var fn = vash.compile(strTmpl.toString());
-	
-		
-		cb(null, '(' + fn.toString() + ')');
-	}
 
+		var newCode = codeTemplate({
+			fn: fn.toClientString()
+		});
+
+		cb(null, newCode);
+	}
 );
 
 module.exports = myTransform;
-module.exports.configure = function(newOptions){
-	Object.keys(newOptions).forEach(function(v){
-		options[v] = newOptions[v];
-	});
-
-	return this;
-};
-

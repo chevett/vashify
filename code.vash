@@ -1,0 +1,4 @@
+(function(){
+	var vash = require('vash/build/vash-runtime.min.js');
+	return @html.raw(model.fn);
+})()
