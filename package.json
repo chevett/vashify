@@ -4,7 +4,8 @@
   "description": "compile vash templates for use with browserify",
   "main": "index.js",
   "scripts": {
-    "test": "./test.sh"
+    "start": "./node_modules/browserify/bin/cmd.js -t ./index.js ./example/entry.js",
+    "test": "test \"$(./node_modules/browserify/bin/cmd.js -t ./index.js ./example/entry.js|node)\" = \"Hi chevett.  Your dumb test worked.\""
   },
   "repository": {
     "type": "git",
