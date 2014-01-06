@@ -27,19 +27,19 @@ function isCoolFile(fileName){
 var myTransform = tt.makeRequireTransform('vashify',
 	{evaluateArguments: true},
 	function(args, opts, cb) {
-		var filePath = args[0];
-		if (!isCoolFile(filePath)) return cb();
+		var argumentToRequire = args[0];
+		if (!isCoolFile(argumentToRequire)) return cb();
 
-		var fileName = filePath.match(/[^\/]*$/)[0];
-		var dirName = path.dirname(opts.file);
-		var fullFileName = path.resolve(dirName, filePath);
+		var templateFileName = argumentToRequire.match(/[^\/]*$/)[0];
+		var moduleDirName = path.dirname(opts.file);
+		var fullTemplateFileName = path.resolve(moduleDirName, argumentToRequire);
 
 		var strTmpl;
 		try {
-			strTmpl = fs.readFileSync(fullFileName);
+			strTmpl = fs.readFileSync(fullTemplateFileName);
 		}
 		catch (e){
-			process.stderr.write('Error reading: ' + filePath + '\n');
+			process.stderr.write('Error reading: ' + argumentToRequire + '\n');
 			throw e;
 		}
 
@@ -48,19 +48,19 @@ var myTransform = tt.makeRequireTransform('vashify',
 			fn = vash.compile(strTmpl.toString());
 		}
 		catch (e){
-			process.stderr.write('Error compiling: ' + filePath + '\n');
+			process.stderr.write('Error compiling: ' + argumentToRequire + '\n');
 			throw e;
 		}
 
-		var moduleContents = moduleTemplate({
-			vashRuntimeLocation: __dirname + '/node_modules/vash/build/vash-runtime.min.js' ,
-			clientString: fn.toClientString()
-		});
 
-		var moduleLocation = lookup[fullFileName];
+		var moduleLocation = lookup[fullTemplateFileName];
 
 		if (!moduleLocation){
-			moduleLocation = lookup[fullFileName] = __dirname + '/.temp/' + counter++ + '_'+fileName + '.js';
+			var moduleContents = moduleTemplate({
+				vashRuntimeLocation: __dirname + '/node_modules/vash/build/vash-runtime.min.js' ,
+				clientString: fn.toClientString()
+			});
+			moduleLocation = lookup[fullTemplateFileName] = __dirname + '/.temp/' + counter++ + '_'+templateFileName + '.js';
 			fs.writeFileSync(moduleLocation, moduleContents);
 		}
 
