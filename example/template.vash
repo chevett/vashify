@@ -1,1 +1,1 @@
-Hi @model.name.  Your dumb test worked.
+Hi @html.fullName(model).  Your dumb test worked.

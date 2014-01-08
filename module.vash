@@ -1,2 +1,16 @@
 var vash = require('@model.vashRuntimeLocation');
-module.exports = @html.raw(model.clientString);
+
+var helpers = [];
+
+module.exports = vash.link(function(p0, html, p2, p3){
+	helpers.forEach(function(h){
+		html[h.name] = h;
+	});
+	return (@html.raw(model.fn)).call(this, p0, html, p2, p3);
+}
+, {"simple":false,"modelName":"model","helpersName":"html"});
+
+
+module.exports.addHelper = function(fn){
+	helpers.push(fn);
+};
