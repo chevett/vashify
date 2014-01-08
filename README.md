@@ -2,9 +2,9 @@ vashify [![Build Status](https://travis-ci.org/chevett/vashify.png)](https://tra
 =======
 
 Use [Vash](https://github.com/kirbysayshi/vash) with [Browserify](https://github.com/substack/node-browserify) and get your templates compiled during the transform
-``````
+`````````````js
 npm install vashify
-`````
+`````````````
 ######your-file.js
 `````````````js
 var template = require('./your-template.vash');
