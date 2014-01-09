@@ -1,8 +1,8 @@
 var tmpl = require('./template.vash');
-var tmpl2 = require('./template.vash');
+var vash = require('vash-runtime');
 
-tmpl.helpers.fullName = function (model){
+vash.helpers.fullName = function (model){
 	return model.first + ' ' + model.last;
 };
 
-console.log(tmpl({first:'Hugh', last:'Jass'}));
+console.log(tmpl({first:'Skeet', last:'Ulrich'}));

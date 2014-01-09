@@ -8,6 +8,8 @@ var counter = 0;
 var lookup = Object.create(null);
 
 var moduleTemplate = vash.compile(fs.readFileSync(__dirname + '/module.vash').toString());
+
+var VASH_RUNTIME_LOCATION = __dirname + '/node_modules/vash/build/vash-runtime-all.min.js';
 var COOL_FILE_REGEX = [
 	/\.vash$/i,
 	/\.aspx$/i
@@ -16,7 +18,7 @@ var COOL_FILE_REGEX = [
 mkdirp.sync(__dirname + '/.temp');
 
 
-function isCoolFile(fileName){
+function isVashTemplate(fileName){
 	var isCool = false;
 	COOL_FILE_REGEX.forEach(function(regex){
 		isCool = isCool || regex.test(fileName);
@@ -24,11 +26,16 @@ function isCoolFile(fileName){
 	return isCool;
 }
 
+function isVashLibrary(fileName){
+	return (/^vash-runtime$/).test(fileName);
+}
+
 var myTransform = tt.makeRequireTransform('vashify',
 	{evaluateArguments: true},
 	function(args, opts, cb) {
 		var argumentToRequire = args[0];
-		if (!isCoolFile(argumentToRequire)) return cb();
+		if (isVashLibrary(argumentToRequire)) return cb(null, 'require("' + VASH_RUNTIME_LOCATION+ '")');
+		if (!isVashTemplate(argumentToRequire)) return cb();
 
 		var templateFileName = argumentToRequire.match(/[^\/]*$/)[0];
 		var moduleDirName = path.dirname(opts.file);
@@ -57,7 +64,7 @@ var myTransform = tt.makeRequireTransform('vashify',
 
 		if (!moduleLocation){
 			var moduleContents = moduleTemplate({
-				vashRuntimeLocation: __dirname + '/node_modules/vash/build/vash-runtime-all.min.js' ,
+				vashRuntimeLocation: VASH_RUNTIME_LOCATION ,
 				clientString: fn.toClientString()
 			});
 			moduleLocation = lookup[fullTemplateFileName] = __dirname + '/.temp/' + counter++ + '_'+templateFileName + '.js';
