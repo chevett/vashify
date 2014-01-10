@@ -27,7 +27,7 @@ function isVashTemplate(fileName){
 }
 
 function isVashLibrary(fileName){
-	return (/^vash-runtime$/).test(fileName);
+	return (/^vash-runtime$/i).test(fileName);
 }
 
 var myTransform = tt.makeRequireTransform('vashify',
