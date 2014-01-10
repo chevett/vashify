@@ -49,4 +49,4 @@ What is happening?
 ------------------
 Module references like require('*.vash') files will be intercepted during the browserify transform.  Once intercepted, the template is compiled and a new module that exports the complied template function is generated.  Next, the generated module is written to disk and the original require('my-template.vash') is replaced with a require to the generated module containing the compiled template.
 
-This means templates that are required multiple times will only appear in the bundle once... which is good for business.
+This means templates that are required multiple times will only appear in the bundle once and the vash-runtime is only included once... which is good for business.
