@@ -2,29 +2,45 @@ vashify [![Build Status](https://travis-ci.org/chevett/vashify.png)](https://tra
 =======
 
 Use [Vash](https://github.com/kirbysayshi/vash) with [Browserify](https://github.com/substack/node-browserify) and get your templates compiled during the transform
-`````````````js
+````js
 npm install vashify
-`````````````
+````
 ######your-file.js
-`````````````js
+````js
 var template = require('./your-template.vash');
 var $ = require('jquery');
 
 $('body').append(template({ name: 'Mike', traits: ['bro', 'tall']}));
-```````````````
+````
 ######your-template.vash
-`````````````html
+```html
 <h1>@model.name</h1>
 <ul>
   @model.traits.forEach(function(t){ 
     <li>You are @t</t>
   })
 </div>
-```````````````
+````
 ######do the transform
-```````````````
+````
 browserify -t vashify your-file.js > bundle.js
-```````````````
+````
+
+using helpers
+-------------
+######require vash-time to register helpers
+````js
+var vash = require('vash-runtime');
+var tmpl = require('./your-template.vash');
+
+vash.helpers.fullName = function(model){
+  return model.first + ' ' + model.last;
+};
+````
+######calling the helpers
+````html
+Hi @html.fullName(model)!  How are you?
+````
 
 
 What is happening?
