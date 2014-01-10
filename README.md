@@ -28,7 +28,7 @@ browserify -t vashify your-file.js > bundle.js
 
 using helpers
 -------------
-######require vash-time to register helpers
+######require vash-runtime to register helpers
 ````js
 var vash = require('vash-runtime');
 var tmpl = require('./your-template.vash');
