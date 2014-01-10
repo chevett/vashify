@@ -36,6 +36,8 @@ var tmpl = require('./your-template.vash');
 vash.helpers.fullName = function(model){
   return model.first + ' ' + model.last;
 };
+
+tmpl({first:'Barbra', last: 'Streisand;});
 ````
 ######calling the helpers
 ````html
