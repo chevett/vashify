@@ -1,2 +1,4 @@
 var vash = require('@model.vashRuntimeLocation');
+
 module.exports = @html.raw(model.clientString);
+module.exports.helpers = vash.helpers;
