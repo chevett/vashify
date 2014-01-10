@@ -4,11 +4,11 @@ var tt = require('browserify-transform-tools'),
 	path = require('path'),
 	vash = require('vash');
 
+vash.config.debug = !(/^prod$|^production$/i).test(process.env.NODE_ENV);
+
 var counter = 0;
 var lookup = Object.create(null);
-
 var moduleTemplate = vash.compile(fs.readFileSync(__dirname + '/module.vash').toString());
-
 var VASH_RUNTIME_LOCATION = __dirname + '/node_modules/vash/build/vash-runtime-all.min.js';
 var COOL_FILE_REGEX = [
 	/\.vash$/i,
