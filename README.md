@@ -41,7 +41,7 @@ tmpl({first:'Barbra', last: 'Streisand;});
 ````
 ######calling the helpers
 ````html
-Hi @html.fullName(model)!  How are you?
+@html.fullName(model)... @html.fullName(model).
 ````
 
 
