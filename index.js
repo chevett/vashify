@@ -80,7 +80,6 @@ var myTransform = makeTransform(function(args, opts, cb) {
 	}
 
 	return cb();
-	
-);
+});
 
 module.exports = myTransform;
