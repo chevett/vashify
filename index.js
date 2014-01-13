@@ -70,21 +70,20 @@ function compileVashTemplate(relativeTemplateReference, moduleFile){
 	return 'require("'+moduleLocation + '")';
 }
 
-var myTransform = tt.makeRequireTransform('vashify',
-	{evaluateArguments: true},
-	function(args, opts, cb) {
-		var arg0 = args[0];
+var makeTransform = tt.makeRequireTransform.bind(tt, 'vashify', {evaluateArguments: true});
+var myTransform = makeTransform(function(args, opts, cb) {
+	var arg0 = args[0];
 
-		if (isVashLibrary(arg0)) {
-			return cb(null, 'require("' + VASH_RUNTIME_LOCATION+ '")');
-		}
-		
-		if (isVashTemplate(arg0)) {
-			return cb(null, compileVashTemplate(arg0, opts.file));
-		}
-
-		return cb();
+	if (isVashLibrary(arg0)) {
+		return cb(null, 'require("' + VASH_RUNTIME_LOCATION+ '")');
 	}
-);
+	
+	if (isVashTemplate(arg0)) {
+		return cb(null, compileVashTemplate(arg0, opts.file));
+	}
+
+	return cb();
+});
+
 
 module.exports = myTransform;
