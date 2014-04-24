@@ -21,11 +21,9 @@ var VASH_TEMPLATE_REGEX = [
 mkdirp.sync(__dirname + '/.temp');
 
 function isVashTemplate(fileName){
-	var isCool = false;
-	VASH_TEMPLATE_REGEX.forEach(function(regex){
-		isCool = isCool || regex.test(fileName);
+	return VASH_TEMPLATE_REGEX.some(function(regex){
+		return regex.test(fileName);
 	});
-	return isCool;
 }
 
 function isVashLibrary(fileName){
