@@ -5,7 +5,7 @@ var tt = require('browserify-transform-tools'),
 	resolve = require('resolve'),
 	vash = require('vash');
 
-vash.config.debug = !(/^prod$|^production$/i).test(process.env.NODE_ENV);
+vash.config.debug = !(/^prod(uction)?$/i).test(process.env.NODE_ENV);
 
 var counter = 0;
 var lookup = Object.create(null);
