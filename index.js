@@ -39,7 +39,7 @@ function postProcessVashTemplate(strJavascript, absolteFileLocation){
 
 		var arg = this.value.arguments[0].value;
 
-		if (/vash-runtime-all.min.js$/i.test(arg)) return;
+		if (!/\.vash$/i.test(arg)) return;
 
 		var fn;
 		var file = path.resolve(dirName, arg); 
