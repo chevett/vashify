@@ -1,2 +1,2 @@
-@{var ex = require('./exclaimation.vash'); }Hi @html.fullName(model).  @ex()
+@{var ex = require('./exclamation.vash'); }Hi @html.fullName(model).  @ex()
 
