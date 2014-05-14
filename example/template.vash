@@ -1,1 +1,2 @@
-Hi @html.fullName(model).  wow.
+@{var ex = require('./exclamation.vash'); }Hi @html.fullName(model).  @ex()
+
