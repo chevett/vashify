@@ -32,8 +32,8 @@ function isVashLibrary(fileName){
 	return (/^vash-runtime$/i).test(fileName);
 }
 
-function postProcessVashTemplate(strJavascript, absolteFileLocation){
-	var dirName = path.dirname(absolteFileLocation);
+function postProcessVashTemplate(strJavascript, absoluteFileLocation){
+	var dirName = path.dirname(absoluteFileLocation);
 
 	return rerequire(strJavascript, function(){
 
@@ -69,7 +69,7 @@ function writeCompiledTemplate(strJavascript, absoluteFileName){
 	}), absoluteFileName);
 
 	moduleLocation = lookup[absoluteFileName] = __dirname + '/.temp/' + counter++ + '_'+basename + '.js';
-	fs.writeFileSync(moduleLocation, moduleContents);
+	fs.writeFileSync(path.normalize(moduleLocation), moduleContents);
 
 	return moduleLocation;
 }
