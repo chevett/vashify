@@ -1,8 +1,10 @@
 var tt = require('browserify-transform-tools'),
 	fs = require('fs'),
+	path = require('path'),
 	mkdirp = require('mkdirp'),
 	path = require('path'),
 	resolve = require('resolve'),
+	rerequire = require('re-require'),
 	vash = require('vash');
 
 vash.config.debug = !(/^prod(uction)?$/i).test(process.env.NODE_ENV);
@@ -30,6 +32,48 @@ function isVashLibrary(fileName){
 	return (/^vash-runtime$/i).test(fileName);
 }
 
+function postProcessVashTemplate(strJavascript, absolteFileLocation){
+	var dirName = path.dirname(absolteFileLocation);
+
+	return rerequire(strJavascript, function(){
+
+		var arg = this.value.arguments[0].value;
+
+		if (/vash-runtime-all.min.js$/i.test(arg)) return;
+
+		var fn;
+		var file = path.resolve(dirName, arg); 
+		var strTmpl = fs.readFileSync(file, 'utf-8');
+
+		try {
+			fn = vash.compile(strTmpl);
+		}
+		catch (e){
+			process.stderr.write('Error compiling: ' + file + '\n');
+			throw e;
+		}
+
+		this.value.arguments[0].value = writeCompiledTemplate(fn.toClientString(), file);
+	});
+}
+
+function writeCompiledTemplate(strJavascript, absoluteFileName){
+	var moduleLocation = lookup[absoluteFileName];
+	if (moduleLocation) return moduleLocation;
+
+	var basename = path.basename(absoluteFileName);
+
+	var moduleContents = postProcessVashTemplate(moduleTemplate({
+		vashRuntimeLocation: VASH_RUNTIME_LOCATION ,
+		clientString: strJavascript
+	}), absoluteFileName);
+
+	moduleLocation = lookup[absoluteFileName] = __dirname + '/.temp/' + counter++ + '_'+basename + '.js';
+	fs.writeFileSync(moduleLocation, moduleContents);
+
+	return moduleLocation;
+}
+
 function compileVashTemplate(relativeTemplateReference, moduleFile){
 	var templateFileName = relativeTemplateReference.match(/[^\/]*$/)[0];
 	var moduleDirName = path.dirname(moduleFile);
@@ -53,18 +97,7 @@ function compileVashTemplate(relativeTemplateReference, moduleFile){
 		throw e;
 	}
 
-
-	var moduleLocation = lookup[fullTemplateFileName];
-
-	if (!moduleLocation){
-		var moduleContents = moduleTemplate({
-			vashRuntimeLocation: VASH_RUNTIME_LOCATION ,
-			clientString: fn.toClientString()
-		});
-		moduleLocation = lookup[fullTemplateFileName] = __dirname + '/.temp/' + counter++ + '_'+templateFileName + '.js';
-		fs.writeFileSync(moduleLocation, moduleContents);
-	}
-
+	var moduleLocation = writeCompiledTemplate(fn.toClientString(), fullTemplateFileName);
 	return 'require("'+moduleLocation + '")';
 }
 
