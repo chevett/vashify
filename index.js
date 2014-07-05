@@ -101,7 +101,7 @@ function compileVashTemplate(relativeTemplateReference, moduleFile){
 	return 'require("'+moduleLocation + '")';
 }
 
-var makeTransform = tt.makeRequireTransform.bind(tt, 'vashify', {evaluateArguments: true});
+var makeTransform = tt.makeRequireTransform.bind(tt, 'vashify', {evaluateArguments: true, jsFilesOnly: true});
 var myTransform = makeTransform(function(args, opts, cb) {
 	var arg0 = args[0];
 
