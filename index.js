@@ -68,7 +68,7 @@ function writeCompiledTemplate(strJavascript, absoluteFileName){
 		clientString: strJavascript
 	}), absoluteFileName);
 
-	moduleLocation = lookup[absoluteFileName] = __dirname + '/.temp/' + counter++ + '_'+basename + '.js';
+	moduleLocation = lookup[absoluteFileName] = path.join(__dirname,  '.temp', counter++ + '_'+basename + '.js');
 	fs.writeFileSync(path.normalize(moduleLocation), moduleContents);
 
 	return moduleLocation;
