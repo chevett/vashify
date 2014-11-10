@@ -13,7 +13,7 @@ var counter = 0;
 var lookup = Object.create(null);
 var moduleTemplate = vash.compile(fs.readFileSync(__dirname + '/module.vash').toString());
 
-var VASH_DIRECTORY = path.dirname(resolve.sync('vash')).replace(/\\/g, '\\\\');
+var VASH_DIRECTORY = path.dirname(resolve.sync('vash'));
 var VASH_RUNTIME_LOCATION = path.join(VASH_DIRECTORY, 'vash-runtime-all.min.js');
 var VASH_TEMPLATE_REGEX = [
 	/\.vash$/i,
@@ -64,7 +64,7 @@ function writeCompiledTemplate(strJavascript, absoluteFileName){
 	var basename = path.basename(absoluteFileName);
 
 	var moduleContents = postProcessVashTemplate(moduleTemplate({
-		vashRuntimeLocation: VASH_RUNTIME_LOCATION ,
+		vashRuntimeLocation: VASH_RUNTIME_LOCATION.replace(/\\/g, '\\\\'),
 		clientString: strJavascript
 	}), absoluteFileName);
 
@@ -98,7 +98,7 @@ function compileVashTemplate(relativeTemplateReference, moduleFile){
 	}
 
 	var moduleLocation = writeCompiledTemplate(fn.toClientString(), fullTemplateFileName);
-	return 'require("'+moduleLocation + '")';
+	return 'require("'+moduleLocation.replace(/\\/g, '\\\\') + '")';
 }
 
 var makeTransform = tt.makeRequireTransform.bind(tt, 'vashify', {evaluateArguments: true, jsFilesOnly: true});
