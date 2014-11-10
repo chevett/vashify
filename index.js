@@ -14,7 +14,7 @@ var lookup = Object.create(null);
 var moduleTemplate = vash.compile(fs.readFileSync(__dirname + '/module.vash').toString());
 
 var VASH_DIRECTORY = path.dirname(resolve.sync('vash'));
-var VASH_RUNTIME_LOCATION = path.resolve(VASH_DIRECTORY + '/vash-runtime-all.min.js');
+var VASH_RUNTIME_LOCATION = path.join(VASH_DIRECTORY, 'vash-runtime-all.min.js');
 var VASH_TEMPLATE_REGEX = [
 	/\.vash$/i,
 	/\.aspx$/i
