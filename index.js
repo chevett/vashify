@@ -106,7 +106,7 @@ var myTransform = makeTransform(function(args, opts, cb) {
 	var arg0 = args[0];
 
 	if (isVashLibrary(arg0)) {
-		return cb(null, 'require("' + VASH_RUNTIME_LOCATION+ '")');
+		return cb(null, 'require("' + VASH_RUNTIME_LOCATION.replace(/\\/g, '\\\\') + '")');
 	}
 	
 	if (isVashTemplate(arg0)) {
