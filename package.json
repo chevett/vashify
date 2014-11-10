@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/browserify/bin/cmd.js -t ./index.js ./example/entry.js",
-    "test": "$(test \"$(./node_modules/browserify/bin/cmd.js -t ./index.js ./example/entry.js|node)\" = \"Hi Skeet Ulrich.  wow.\") && echo 'PASS' || ! echo 'FAIL'"
+    "test": "$(test \"$(./node_modules/browserify/bin/cmd.js -t ./index.js ./example/entry.js|node | tr -d '\n')\" = \"Hi Skeet Ulrich.  wow.\") && echo 'PASS' || ! echo 'FAIL'"
   },
   "repository": {
     "type": "git",
