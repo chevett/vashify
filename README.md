@@ -47,6 +47,8 @@ tmpl({first:'Barbra', last: 'Streisand';});
 
 What is happening?
 ------------------
-Module references like require('*.vash') files will be intercepted during the browserify transform.  Once intercepted, the template is compiled and a new module that exports the complied template function is generated.  Next, the generated module is written to disk and the original require('my-template.vash') is replaced with a require to the generated module containing the compiled template.
+Module references like require('*.vash') files will be intercepted during the browserify transform.  Once intercepted, the template is compiled and a new module that exports the complied template function is generated.
 
-This means templates that are required multiple times will only appear in the bundle once and the vash-runtime is only included once... which is good for business.
+The vash runtime is automatically included one time, the first time a vash file is required.
+
+This means templates that are required multiple times will only appear in the bundle once and the vash runtime is only included once... which is good for business.
