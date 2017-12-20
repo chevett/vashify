@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "browserify-t ./index.js ./example/entry.js",
-    "test": "$(test \"$(browserify -t ./index.js ./example/entry.js|node | tr -d '\n')\" = \"Hi Skeet Ulrich.  wow.\") && echo 'PASS' || ! echo 'FAIL'"
+    "test": "$(test \"$(browserify -t ./index.js ./example/entry.js|node | tr -d '\n')\" = \"Hi Skeet Ulrich.  wow.\") && echo 'PASS' || ! echo 'FAIL'",
+    "example-two": "browserify -t ./index.js ./example/two/entry.js|node"
   },
   "repository": {
     "type": "git",
